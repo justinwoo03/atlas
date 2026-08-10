@@ -1,0 +1,58 @@
+[project]
+name = "atlas"
+version = "0.1.0"
+description = "A production RAG API with a real evaluation harness"
+readme = "README.md"
+authors = [
+    { name = "Justin Woo", email = "justinwoo03@gmail.com" }
+]
+requires-python = ">=3.13"
+dependencies = [
+    "anthropic>=0.121.0",
+    "fastapi>=0.141.1",
+    "httpx>=0.28.1",
+    "numpy>=2.5.2",
+    "psycopg[binary,pool]>=3.3.4",
+    "pydantic>=2.13.4",
+    "pydantic-settings>=2.15.0",
+    "redis>=8.1.0",
+    "selectolax>=0.4.11",
+    "structlog>=26.1.0",
+    "tenacity>=9.1.4",
+    "tiktoken>=0.13.0",
+    "uvicorn[standard]>=0.52.1",
+]
+
+[project.scripts]
+atlas = "atlas:main"
+
+[build-system]
+requires = ["uv_build>=0.12.3,<0.13.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "pre-commit>=4.6.1",
+    "pytest>=9.1.1",
+    "pytest-asyncio>=1.4.0",
+    "ruff>=0.16.2",
+]
+
+[tool.ruff]
+line-length = 100
+# Must match requires-python above and the Dockerfile's base image. If these
+# three disagree, ruff enforces syntax rules for a version you don't run.
+target-version = "py313"
+
+[tool.ruff.lint]
+# E  pycodestyle errors      F  pyflakes (unused imports, undefined names)
+# I  import sorting          N  PEP-8 naming
+# UP pyupgrade (modernise)   B  bugbear (likely bugs)
+# SIM simplification
+select = ["E", "F", "I", "N", "UP", "B", "SIM"]
+
+[tool.pytest.ini_options]
+# Lets you write `async def test_...` without decorating every test.
+asyncio_mode = "auto"
+testpaths = ["tests"]
+markers = ["integration: requires a running database and API keys"]

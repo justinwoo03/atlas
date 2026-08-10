@@ -1,0 +1,75 @@
+# ---------------------------------------------------------------------------
+# Secrets — the only entries here that are genuinely dangerous to omit.
+# ---------------------------------------------------------------------------
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# ---------------------------------------------------------------------------
+# Python
+# ---------------------------------------------------------------------------
+__pycache__/
+*.py[oc]
+*.egg-info
+build/
+dist/
+wheels/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Virtual environments
+.venv
+.venv/
+venv/
+
+# ---------------------------------------------------------------------------
+# Terraform (week 3)
+#
+# terraform.tfstate contains the RDS master password in PLAINTEXT. Committing
+# it is the same severity as committing .env. *.tfvars often holds account IDs
+# and zone IDs you'd rather not publish.
+#
+# .terraform.lock.hcl is deliberately NOT ignored — it pins provider versions
+# and belongs in the repo, same reasoning as uv.lock.
+# ---------------------------------------------------------------------------
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+*.tfvars.json
+crash.log
+crash.*.log
+
+# ---------------------------------------------------------------------------
+# Corpus and generated evaluation artifacts
+#
+# The corpus is ~25MB compressed and hundreds of MB extracted — it is
+# reproducible from the download command in the README, so it does not belong
+# in git.
+#
+# eval/cache/ is the benchmark's disk cache: thousands of small JSON files,
+# regenerable, and pure noise in a diff.
+#
+# NOTE what is deliberately absent: eval/golden.jsonl, eval/results.json, and
+# eval/calibration_log.md are NOT ignored. Those are hand-verified ground
+# truth and published results — they are the most valuable artifacts in the
+# repo and the reason the project is worth showing. Commit them.
+# ---------------------------------------------------------------------------
+corpus/
+atlas-corpus/
+eval/cache/
+eval/candidates.jsonl
+eval/outputs.jsonl
+*.tar.bz2
+*.tar.gz
+
+# ---------------------------------------------------------------------------
+# OS and editor
+# ---------------------------------------------------------------------------
+.DS_Store
+.idea/
+.vscode/
+*.swp
